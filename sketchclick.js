@@ -13,76 +13,56 @@ let callbackSketch = function (mutationsList) {
           console.log("navLinkSketch has been clicked");
           setTimeout(function () {
             const canvasSketchParent = document.querySelector(".c-sketch");
-
+            const sketchable = document.getElementById("sketchable");
             const sketch = Sketch.create({
-              container: document.getElementById("sketchable"),
+              container: sketchable,
               width: canvasSketchParent.offsetWidth,
               height: canvasSketchParent.offsetWidth,
               fullscreen: false,
               autoclear: false,
-              touchmove: function () {
-                if (this.dragging) {
-                  var touch = this.touches[0];
-                  this.lineWidth = 3;
-                  this.beginPath();
-                  this.moveTo(touch.ox, touch.oy);
-                  this.lineTo(touch.x, touch.y);
-                  this.strokeStyle = "#ef233c";
-                  this.stroke();
-                }
-              },
             });
 
-            document
-              .getElementById("sketchable")
-              .addEventListener("mousedown", function (event) {
-                sketch.dragging = true;
-              });
+            let isDrawing = false;
 
-            document
-              .getElementById("sketchable")
-              .addEventListener("mousemove", function (event) {
-                if (sketch.dragging) {
-                  sketch.lineWidth = 3;
-                  sketch.beginPath();
-                  sketch.moveTo(event.offsetX, event.offsetY);
-                  sketch.lineTo(event.offsetX, event.offsetY);
-                  sketch.strokeStyle = "#ef233c";
-                  sketch.stroke();
-                }
-              });
+            sketchable.addEventListener("mousedown", function (event) {
+              sketch.dragging = true;
+              sketch.beginPath();
+              sketch.moveTo(event.offsetX, event.offsetY);
+            });
 
-            document
-              .getElementById("sketchable")
-              .addEventListener("mouseup", function (event) {
-                sketch.dragging = false;
-              });
+            sketchable.addEventListener("mousemove", function (event) {
+              if (sketch.dragging) {
+                sketch.lineWidth = 3;
+                sketch.lineTo(event.offsetX, event.offsetY);
+                sketch.strokeStyle = "#ef233c";
+                sketch.stroke();
+              }
+            });
 
-            document
-              .getElementById("sketchable")
-              .addEventListener("touchstart", function (event) {
-                sketch.dragging = true;
-              });
+            sketchable.addEventListener("mouseup", function (event) {
+              sketch.dragging = false;
+            });
 
-            document
-              .getElementById("sketchable")
-              .addEventListener("touchmove", function (event) {
-                if (sketch.dragging) {
-                  var touch = event.touches[0];
-                  sketch.lineWidth = 3;
-                  sketch.beginPath();
-                  sketch.moveTo(touch.pageX, touch.pageY);
-                  sketch.lineTo(touch.pageX, touch.pageY);
-                  sketch.strokeStyle = "#ef233c";
-                  sketch.stroke();
-                }
-              });
+            sketchable.addEventListener("touchstart", function (event) {
+              sketch.dragging = true;
+              var touch = event.touches[0];
+              sketch.beginPath();
+              sketch.moveTo(touch.pageX, touch.pageY);
+            });
 
-            document
-              .getElementById("sketchable")
-              .addEventListener("touchend", function (event) {
-                sketch.dragging = false;
-              });
+            sketchable.addEventListener("touchmove", function (event) {
+              if (sketch.dragging) {
+                var touch = event.touches[0];
+                sketch.lineWidth = 3;
+                sketch.lineTo(touch.pageX, touch.pageY);
+                sketch.strokeStyle = "#ef233c";
+                sketch.stroke();
+              }
+            });
+
+            sketchable.addEventListener("touchend", function (event) {
+              sketch.dragging = false;
+            });
 
             document
               .getElementById("btnClear")
