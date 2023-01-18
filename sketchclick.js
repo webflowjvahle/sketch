@@ -89,7 +89,7 @@ let callbackSketch = function (mutationsList) {
               .addEventListener("click", function () {
                 sketch.clear();
               });
-          }, 400);
+          }, 800);
         });
       } else {
         console.log("navLinkSketch element is not present on the page");
